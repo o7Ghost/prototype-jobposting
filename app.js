@@ -33,6 +33,7 @@ app.get("/job/:jobId", function (req, res) {
         if(err){
             console.log(err);
         }
+        //sending json 
         else{
             res.send(rows[0]);
         }

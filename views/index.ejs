@@ -78,7 +78,10 @@
         </div>
         <div id="job_details">
             <p id="job_detail_paragraph">
+                <%= all_posts[start].Context %>
             </p>
+            <a id = "apply_link" class = "btn btn-primary" href = "<%= all_posts[start].Job_Link %>" target="_blank">Apply</a>
+        
         </div>
     </div>
 
@@ -110,6 +113,7 @@
                 dataType: 'json',
                 success: (data) => {
                     $("#job_detail_paragraph").text(data.Context);
+                    $("#apply_link").attr("href", data.Job_Link);
                     console.log("success");
                 }
             })
