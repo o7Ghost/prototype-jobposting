@@ -1,0 +1,26 @@
+<html>
+<head>
+  <title> Sign Up </title>
+  <link rel="stylesheet" href="/signUp.css">
+</head>
+<body>
+    <% for (let i = 0; i < errors.length; i++) { %>
+    <div class="isa_error">
+      <i> <%= errors[i].msg %></i>
+    </div>
+    <%} %>
+  <div class="main-w3layouts wrapper">
+    <h1>SignUp Now</h1>
+    <div class="main-agileinfo">
+      <div class="agileits-top">
+        <form action="/signup" method="Post">
+          <input class="text" type="text" name="Username" placeholder="Username" required="">
+          <input class="text password" type="password" name="Password" placeholder="Password" required="">
+          <input class="text w3lpass" type="password" name="Password2" placeholder="Confirm Password" required="">
+          <input type="submit" value="SIGNUP">
+        </form>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
