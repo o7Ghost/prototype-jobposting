@@ -1,0 +1,39 @@
+<head>
+	<title><%=result[0].Company_Name%></title>
+	<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+	<link href="/css/acc_page.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+	<div class = "nav">
+		<a href="/LogOut">Log Out</a>
+	</div>
+	<div class = "row">
+		<% for (var i = 0; i < result.length; i++) { %>
+		<div class = "display_details"job_id ="<%=result[i].Company_id%>">
+			<div class = items>
+				<div><span><%=result[i].Job_Title%></span></div>
+				<div><span><%=result[i].Location %></span></div>
+			</div>
+		</div>
+		<br>
+		<%}%>
+	</div>
+	<div class = "Content" id = "right">
+		<%=result[0].Context%>	
+	</div>
+	<script>
+		$(".display_details").click(function() {
+			console.log("entered script")
+			$.ajax({
+				type:"GET",
+                dataType:"json",
+                url: '/Login/acc_page/data/' + $(this).attr('job_id'),
+                success:(data) => {
+                	console.log(data.Context);
+                	$(".Content").text(data.Context);
+                }
+            })
+		});
+	</script>
+</body>

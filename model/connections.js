@@ -46,7 +46,7 @@ var check_table_exists = 'DROP TABLE IF EXISTS'
 var create_company_Acc_table = 'create table Company_Acc (Company_Accid int auto_increment primary key,Company_name varchar(255) not null,Password varchar(255) not null);'
 var create_user_Acc_table = 'create table User (User_id int auto_increment primary key,UserName varchar(255) not null,Password varchar(255) not null);'
 var create_company_post_table = 'create table Company_Posts (Company_id INT auto_increment primary key,Company_Name varchar(255) not null,Location varchar(255) not null,Job_Title varchar(255) not null,Context text not null,Job_Link varchar(255) not null,Company_Acc_id int,FOREIGN KEY(Company_Acc_id) References Company_Acc(Company_Accid) on delete cascade)'
-var create_Book_mark_table = 'Create table BookMark (CompanyId int,FOREIGN KEY(CompanyId) References Company_Acc(Company_Accid) on delete cascade,userID int,FOREIGN KEY(userID) References User(User_id) on delete cascade);'
+var create_Book_mark_table = 'Create table BookMark (CompanyId int,FOREIGN KEY(CompanyId) References Company_Posts(Company_id) on delete cascade,userID int,FOREIGN KEY(userID) References User(User_id) on delete cascade);'
 var create_table_statements = []
 create_table_statements.push(create_company_Acc_table)
 create_table_statements.push(create_user_Acc_table)

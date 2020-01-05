@@ -19,8 +19,8 @@ router.use(bodyParser.urlencoded({
 //set up database connection
 var connection = mysql.createConnection({
 	host: 'localhost',
-	user: '', // your root username
-	password: '',
+	user: 'root', // your root username
+	password: 'Id00010469',
 	database: 'Posting_Web', // the name of your db
 	multipleStatements: true
 });
@@ -28,10 +28,11 @@ var connection = mysql.createConnection({
 
 function findUserByEmail(value){
 	return new Promise(function(resolve, reject){
-		const e = "select UserName from User where UserName = ?";
-		connection.query(e, value, function(err, result){
+		const e = "select UserName from User where UserName = ?; select Company_name from Company_Acc where Company_name = ?;"
+		//const e = "select UserName from User where UserName = ?";
+		connection.query(e, [value,value], function(err, result){
 			if(err) throw err;
-			if(result.length != 0){
+			if(result[0].length != 0 || result[1].length != 0){
 				return resolve(true);
 			}
 			else{
@@ -43,7 +44,7 @@ function findUserByEmail(value){
 
 router.post("/", [check('Username').isEmail().withMessage('Invalid Email'),
 		check('Password').isLength({
-			min: 5
+			min: 8
 		}).withMessage('must be at least 5 chars long'),
 		check('Password', "Your password must contain at least one:" +
 			"Uppercase character, Lowercase character, Symbol and Numeric character").matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,}$/),
@@ -62,7 +63,7 @@ router.post("/", [check('Username').isEmail().withMessage('Invalid Email'),
 					return Promise.reject('E-mail alreay in use');
 				}
 				else{
-					return false;
+					return true;
 				}
 			})
 		})
@@ -77,7 +78,16 @@ router.post("/", [check('Username').isEmail().withMessage('Invalid Email'),
 				errors: err
 			});
 		} else {
-			var q = 'insert into User (UserName, Password) values ?';
+
+			var q = "";
+			if (req.body.company == "true") {
+				console.log("company_Acc inserted!");
+				q = 'insert into Company_Acc (Company_name, Password) values ?';	
+			}
+			else {
+				q = 'insert into User (UserName, Password) values ?';
+			}
+			
 			var tmp = [];
 			tmp.push([req.body.Username, req.body.Password]);
 

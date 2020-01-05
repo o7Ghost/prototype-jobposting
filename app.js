@@ -42,8 +42,8 @@ app.set('views', __dirname + '/views');
 //setting up database connection
 var connection = mysql.createConnection({
     host: 'localhost',
-    user: '', // your root username
-    password: '',
+    user: 'root', // your root username
+    password: 'Id00010469',
     database: 'Posting_Web', // the name of your db
     multipleStatements: true
 });

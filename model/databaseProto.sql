@@ -27,7 +27,7 @@ Create table Company_Posts (
 
 Create table BookMark (
 	CompanyId int,
-	FOREIGN KEY(CompanyId) References Company_Acc(Company_Accid) on delete cascade,
+	FOREIGN KEY(CompanyId) References Company_Posts(Company_id) on delete cascade,
 	userID int,
 	FOREIGN KEY(userID) References User(User_id) on delete cascade
 
