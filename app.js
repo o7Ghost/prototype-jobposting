@@ -42,8 +42,8 @@ app.set('views', __dirname + '/views');
 //setting up database connection
 var connection = mysql.createConnection({
     host: 'localhost',
-    user: 'root', // your root username
-    password: 'Id00010469',
+    user: 'fruitboy', // your root username
+    password: 'Aa745892475',
     database: 'Posting_Web', // the name of your db
     multipleStatements: true
 });
@@ -79,22 +79,36 @@ app.get("/job/:jobId", function (req, res) {
 app.get('/jobpost/:pageIndex', (request, response) => {
     connection.query('SELECT * FROM company_posts', (err, rows, fields) => {
         if (!err) {
+            const job_per_page = 10;
+            const pagin_per_page = 6;
             var pageIndex = parseInt(request.params.pageIndex);
-            var total_page_length = Math.ceil(rows.length / 10);
-            var pagin_per_page = 5;
-            var start = (pageIndex - 1) * pagin_per_page;
-            var end = start + 10;
-            var pagin_start = pageIndex - 2;
-            var pagin_end = pageIndex + 3;
+            var total_page_length = Math.ceil(rows.length / job_per_page);
+            if (pageIndex < 1) {
+                pageIndex = 1;
+            }
+            if (pageIndex > total_page_length) {
+                pageIndex = total_page_length;
+            }
+
+            console.log("total page is " + total_page_length);
+
+            var start = (pageIndex - 1) * job_per_page;
+            var end = start + job_per_page;
+            if (end >= rows.length) {
+                end = start + ((rows.length - start) % job_per_page)
+            }
+
+            var pagin_start = pageIndex - pagin_per_page / 2;
+            var pagin_end = pageIndex + pagin_per_page / 2;
 
             //edge cases for first few pages and last few pages
             if (pagin_start < 1) {
                 pagin_start = 1;
-                pagin_end = pagin_start + 5;
+                pagin_end = pagin_start + pagin_per_page;
             }
             if (pagin_end > total_page_length) {
-                pagin_end = total_page_length;
-                pagin_start = pagin_end - 5;
+                pagin_end = total_page_length + 1;
+                pagin_start = pagin_end - pagin_per_page;
             }
             if (request.session.userId) {
                 connection.query('SELECT * FROM user WHERE User_id = ' + request.session.userId, (err, r, fields) => {
@@ -105,7 +119,7 @@ app.get('/jobpost/:pageIndex', (request, response) => {
                             end: end,
                             pagin_start: pagin_start,
                             pagin_end: pagin_end,
-                            last_page: total_page_length - 1,
+                            last_page: total_page_length,
                             currPage: pageIndex,
                             currUser: r[0].UserName,
                             session: request.session
@@ -121,7 +135,7 @@ app.get('/jobpost/:pageIndex', (request, response) => {
                     end: end,
                     pagin_start: pagin_start,
                     pagin_end: pagin_end,
-                    last_page: total_page_length - 1,
+                    last_page: total_page_length,
                     currPage: pageIndex,
                     currUser: "",
                     session: request.session

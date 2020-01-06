@@ -7,8 +7,8 @@ router.use(bodyParser.urlencoded({extended: true}));
 
 var connection = mysql.createConnection({
   host     : 'localhost',
-  user     : 'root',     // your root username
-  password : 'Id00010469',
+  user     : 'fruitboy',     // your root username
+  password : 'Aa745892475',
   database : 'posting_Web',   // the name of your db
   multipleStatements: true
 });
