@@ -42,8 +42,8 @@ app.set('views', __dirname + '/views');
 //setting up database connection
 var connection = mysql.createConnection({
     host: 'localhost',
-    user: 'root', // your root username
-    password: 'Id00010469',
+    user: 'fruitboy', // your root username
+    password: 'Aa745892475',
     database: 'Posting_Web', // the name of your db
     multipleStatements: true
 });
@@ -147,27 +147,33 @@ app.get('/jobpost/:pageIndex', (request, response) => {
     })
 });
 
-app.get("/users", (req, res) => {
-    // hard-coded user data
-    var users_array = [{
-            name: "Michael",
-            email: "michael@codingdojo.com"
-        },
-        {
-            name: "Jay",
-            email: "jay@codingdojo.com"
-        },
-        {
-            name: "Brendan",
-            email: "brendan@codingdojo.com"
-        },
-        {
-            name: "Andrew",
-            email: "andrew@codingdojo.com"
-        }
-    ];
-    res.render('users', {
-        users: users_array
-    });
+app.get("/showbookmark", idCheck.userIdCheck, (req, res)=>{
+    var q = "select Job_Title, Job_link, Company_id from company_posts where Company_id in (select CompanyId from bookmark where userID = ?);"
+    connection.query(q, [req.session.userId], (err, rows, fields)=>{
+        if(err) throw err
+        res.send(rows);
+    })
 })
+
+app.get("/bookmark/:jobId",idCheck.userIdCheck, (req, res)=>{
+    var q = "insert into bookmark (CompanyId, userID) values ?";
+    var temp = [];
+    temp.push([req.params.jobId, req.session.userId]);
+    connection.query(q, [temp], (err, rows, fields)=>{
+        if(err) throw err
+        else{
+            console.log("insert success!")
+            //pro tip redirec to previous page
+            res.redirect('back')
+        }
+    })
+})
+
+app.get("/remove/:mjID", idCheck.userIdCheck, (req, res) => {
+    var q = "delete from bookmark where companyID = ? and userID = ?"
+    connection.query(q, [req.params.mjID, req.session.userId], (err,re) => {
+        if (err) throw err;
+        res.redirect('back');
+    });
+});
 app.listen(PORT, () => console.log("listening on port" + PORT));

@@ -11,9 +11,9 @@ router.use(bodyParser.urlencoded({
 
 var connection = mysql.createConnection({
     host: 'localhost',
-    user: 'root', // your root username
-    password: 'Id00010469',
-    database: 'Posting_Web', // the name of your db
+    user: 'fruitboy', // your root username
+    password: 'Aa745892475',
+    database: 'posting_web', // the name of your db
     multipleStatements: true
 });
 
@@ -27,7 +27,7 @@ router.get('/data/:Id', (request,res) => {
 router.get('/', (request,res) => {
 	console.log("company page");
 	var q = "select * from Company_Posts where Company_Acc_id = ?"
-	connection.query(q, request.session.userId, (err,result) => {
+	connection.query(q, request.session.companyId, (err,result) => {
 		res.render('C_login_p', {result:result});
 	});
 });

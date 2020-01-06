@@ -1,25 +1,26 @@
-*{
+* {
     margin: 0;
     border: 0;
     padding: 0;
 }
-body{
+
+body {
     width: 100vw;
     height: 100vh;
 }
 
-#jobs_body{
+#jobs_body {
     width: 100vw;
     display: flex;
     height: 93%;
 }
 
-#job_list{
+#job_list {
     width: 50%;
     height: 100%;
 }
 
-#job_details{
+#job_details {
     width: 50%;
     height: 100%;
     padding-top: 50px;
@@ -29,7 +30,7 @@ body{
     overflow: auto;
 }
 
-.job_post_item{
+.job_post_item {
     width: 70%;
     padding: 5px;
     font-family: sans-serif;
@@ -40,20 +41,63 @@ body{
 }
 
 
-@media (hover: hover)
-{
-    .job_post_item:hover{
+@media (hover: hover) {
+    .job_post_item:hover {
         background-color: #3b4a6e;
         color: white;
     }
 }
 
-#apply_link{
+#apply_link {
     font-size: 1.2em;
     width: 30%;
 }
 
 
+/* ----------hamburger --- ---- */
 
 
 
+.sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+}
+
+.sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+}
+
+.sidenav a:hover {
+    color: #f1f1f1;
+}
+
+.sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+@media screen and (max-height: 450px) {
+    .sidenav {
+        padding-top: 15px;
+    }
+
+    .sidenav a {
+        font-size: 18px;
+    }
+}

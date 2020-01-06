@@ -13,8 +13,12 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark w-5">     
-                <a class="navbar-brand bg-light" > Welcome <%=currUser%> </a>
+    <div id="mySidenav" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    </div>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark w-5">
+        <a class="navbar-brand bg-light"> Welcome <%=currUser%> </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -22,28 +26,17 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-                
+
                 <li class="nav-item">
-                    <a class="nav-link" href="#">My Job Mark</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Dropdown
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
+                    <a class="nav-link" onclick="openNav()">&#9776; My Job Marks</a>
+
                 </li>
                 <li class="nav-item">
                     <% if(session.userId){ %>
-                        <a class="nav-link btn-secondary" href="/LogOut">Log Out</a>
+                    <a class="nav-link btn-secondary" href="/LogOut">Log Out</a>
                     <% } else { %>
-                        <a class="nav-link btn-secondary" href="/Login">Log In</a>
-                    <% } %>    
+                    <a class="nav-link btn-secondary" href="/Login">Log In</a>
+                    <% } %>
                 </li>
             </ul>
             <form class="form-inline my-1 my-lg-0">
@@ -68,11 +61,11 @@
                 <ul class="pagination d-flex justify-content-center">
                     <li class="page-item"><a class="page-link" href="/">First</a></li>
                     <% for (var i= pagin_start ; i < pagin_end; i++) { %>
-                        <% if (i == currPage) { %>
-                            <li class="page-item active"><a class="page-link" href="/jobpost/<%= i %>"><%= i %></a></li>
-                        <% } else { %>
-                            <li class="page-item"><a class="page-link" href="/jobpost/<%= i %>"><%= i %></a></li>
-                        <% } %>
+                    <% if (i == currPage) { %>
+                    <li class="page-item active"><a class="page-link" href="/jobpost/<%= i %>"><%= i %></a></li>
+                    <% } else { %>
+                    <li class="page-item"><a class="page-link" href="/jobpost/<%= i %>"><%= i %></a></li>
+                    <% } %>
                     <% } %>
                     <li class="page-item"><a class="page-link" href="/jobpost/<%= last_page %>">End</a></li>
                 </ul>
@@ -82,8 +75,9 @@
             <p id="job_detail_paragraph">
                 <%= all_posts[start].Context %>
             </p>
-            <a id = "apply_link" class = "btn btn-primary" href = "<%= all_posts[start].Job_Link %>" target="_blank">Apply</a>
-        
+            <a id="apply_link" class="btn btn-primary" href="<%= all_posts[start].Job_Link %>" target="_blank">Apply</a>
+            <a id="book_mark" class="btn btn-primary" href="/bookmark/<%= all_posts[start].Company_id%>">Book Mark</a>
+
         </div>
     </div>
 
@@ -103,8 +97,8 @@
             var selected_item_ref = $(this)
             $(this).css('background', '#3b4a6e');
             $(this).css('color', 'white');
-            $('.job_post_item').each(function(i, obj) {
-                if(!$(obj).is(selected_item_ref)){
+            $('.job_post_item').each(function (i, obj) {
+                if (!$(obj).is(selected_item_ref)) {
                     $(obj).css('background', '#AECCE7');
                     $(obj).css('color', 'black');
                 }
@@ -115,12 +109,39 @@
                 dataType: 'json',
                 success: (data) => {
                     $("#job_detail_paragraph").text(data.Context);
+
                     $("#apply_link").attr("href", data.Job_Link);
+                    $("#book_mark").attr("href", "/bookmark/" + $(this).attr('job-id'));
                     console.log("success");
                 }
             })
         });
     </script>
+
+    <script>
+        function openNav() {
+            document.getElementById("mySidenav").style.width = "500px";
+            if($("#mySidenav").children().length == 1){
+                $.ajax({
+                    type: "GET",
+                    url: '/showbookmark',
+                    dataType: 'json',
+                    success: (data) => {
+                        console.log(data);
+                        for (var i = 0; i < data.length; i++) {
+                            $("#mySidenav").append('<a href ="' + data[i].Job_link + '" target="_blank">' + data[i].Job_Title +
+                                '</a>' + '<a href ="/remove/' +  data[i].Company_id + '">' + 'remove </a>');
+                        }
+                    }
+                })
+            }
+        }
+
+        function closeNav() {
+            document.getElementById("mySidenav").style.width = "0";
+        }
+    </script>
+
 </body>
 
 </html>
