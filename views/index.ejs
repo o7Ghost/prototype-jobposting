@@ -129,9 +129,24 @@
                     success: (data) => {
                         console.log(data);
                         for (var i = 0; i < data.length; i++) {
-                            $("#mySidenav").append('<a href ="' + data[i].Job_link + '" target="_blank">' + data[i].Job_Title +
-                                '</a>' + '<a href ="/remove/' +  data[i].Company_id + '">' + 'remove </a>');
+                            let container_box = document.createElement("div");
+                            container_box.setAttribute("class", "bookmark_container");
+                            let bookMark_job = document.createElement("a");
+                            bookMark_job.setAttribute("href", data[i].Job_link);
+                            bookMark_job.setAttribute("class", "bookmark_item");
+            
+                            let bookMark_remove = document.createElement("a");
+                            bookMark_remove.setAttribute("href", "/remove/" + data[i].Company_id);
+                            bookMark_remove.setAttribute("class", "bookmark_remove_button");
+                            bookMark_job.innerHTML = data[i].Job_Title;
+                            bookMark_remove.innerHTML = "⌫";
+                            container_box.appendChild(bookMark_job);
+                            container_box.appendChild(bookMark_remove);
+                            // $("#mySidenav").append('<a href ="' + data[i].Job_link + '" target="_blank">' + data[i].Job_Title +
+                            //     '</a>' + '<a href ="/remove/' +  data[i].Company_id + '">' + 'remove </a>');
+                            $("#mySidenav").append(container_box);
                         }
+
                     }
                 })
             }
