@@ -5,12 +5,13 @@ var bodyParser = require("body-parser");
 const {check, validationResult} = require('express-validator');
 router.use(bodyParser.urlencoded({extended: true}));
 
+//setting up database connection
 var connection = mysql.createConnection({
-  host     : 'localhost',
-  user     : 'fruitboy',     // your root username
-  password : 'Aa745892475',
-  database : 'posting_Web',   // the name of your db
-  multipleStatements: true
+    host: 'localhost',
+    user: 'root', // your root username
+    password: 'Id00010469',
+    database: 'Posting_Web', // the name of your db
+    multipleStatements: true
 });
 
 router.post("/", function(req,res) {
