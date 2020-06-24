@@ -10,11 +10,16 @@ body {
   background:white;
 }
 
+section {
+  margin-top: 50px;
+}
+
 header {
   text-align: center;
 }
 
 h1 {
+  font-size: 2em;
   color: #00609c;
 }
 
@@ -92,6 +97,10 @@ a {
 
 .terms {
   color:#ffcd00;
+}
+
+footer {
+  padding: 10px;
 }
 
 .Login {
