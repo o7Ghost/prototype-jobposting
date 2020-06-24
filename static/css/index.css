@@ -1,122 +1,244 @@
 * {
-    margin: 0;
-    border: 0;
-    padding: 0;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-body {
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(200, 222, 233, 0.45);
+/* nav */
+nav {
+  background: #00609c;
+  width: 100%;
+  padding: 0.5rem;
 }
 
-#jobs_body {
-    width: 100vw;
-    display: flex;
-    height: 93%;
+section {
+  margin: auto;
+  max-width: 1200px;
+  background: white;
 }
 
-#job_list {
-    width: 50%;
-    height: 100%;
+.nav-container {
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  max-width: 1200px;
+  align-items: center;
 }
 
-#job_details {
-    width: 50%;
-    height: 100%;
-    padding-top: 50px;
-    padding-right: 50px;
-    font-family: serif;
-    font-size: 1.3em;
-    overflow: auto;
+.left-container {
+  display: flex;
+  align-items: center;
+  overflow: scroll;
+  line-height: 1.5;
+}
+
+.right-container ul {
+  list-style: none;
+}
+
+.right-container ul li:hover {
+  cursor: pointer;
+}
+
+.right-container ul li {
+  position: relative;
+  display: inline-block;
+}
+
+.right-container ul li ul li a {
+  text-decoration: none;
+  color: #00609c;
+}
+
+.right-container ul li:hover ul {
+  display: block;
+  position: absolute;
+  border: 0;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15), 0 6px 9px rgba(0, 0, 0, 0.2);
+}
+
+.right-container ul li:hover ul li {
+  display: block;
+  background: white;
+  text-align: center;
+  padding: 1rem;
+  width: 200px;
+  left: 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.right-container ul li ul {
+  display: none;
+}
+
+h1 {
+  margin: 0;
+  text-align: center;
+  color: #ffcd00;
+  padding: 0 1rem;
+}
+
+input {
+  border-radius: 2px;
+  padding: 0.2rem 0;
+  outline: none;
+  border: none;
+  width: 250px;
+}
+
+.search-btn {
+  position: relative;
+  right: 25px;
+  background-color: white;
+  border: none;
+  pointer-events: none;
+}
+
+.fa-user-circle {
+  color: white;
+}
+
+/* section */
+
+/*job-listing*/
+section {
+  display: grid;
+  grid-template-areas: "joblist jobbody";
+}
+
+.grid-left {
+  grid-area: joblist;
+
+  height: 90vh;
+  overflow: scroll;
+
+  box-shadow: 1px 0px 0px 0px rgba(0, 0, 0, 0.2);
 }
 
 .job_post_item {
-    width: 70%;
-    padding: 5px;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 1em;
-    border-radius: 10px;
-    background-color: #AECCE7;
-    box-shadow: 5px 10px rgba(137, 141, 142, 0.65);
-    color: rgba(13, 80, 114, 0.9);
+  padding: 1rem;
+  box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.2);
 }
 
-
-
-
-@media (hover: hover) {
-    .job_post_item:hover {
-        
-        color: white;
-    }
+.job-title {
+  color: #00609c;
+}
+.job_post_item:hover .job-title {
+  text-decoration: underline;
 }
 
-#apply_link, #book_mark {
-    font-size: 1.2em;
-    width: 30%;
+.job_post_item:hover {
+  cursor: pointer;
+}
+.job-inner {
+  display: flex;
 }
 
-
-
-
-
-/* ----------hamburger --- ---- */
-
-
-
-.sidenav {
-    height: 100%;
-    width: 0;
-    position: fixed;
-    z-index: 1;
-    top: 0;
-    left: 0;
-    background-color: rgba(236, 235, 238);
-    overflow-x: hidden;
-    transition: 0.5s;
-    padding-top: 60px;
+.job-header {
+  padding-left: 8px;
+  width: 300px;
 }
 
-.bookmark_container{
-    width: 100%;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
+.job-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-decoration: none;
 }
 
-
-.bookmark_item{
-    padding: 10px;
-    border-radius: 10px;
-    width: 300px;
-    font-size: 1.2em;
-    background-color: rgb(221, 221, 250);
-    text-decoration: none;
-    margin-top: 10px;
+.grid-right {
+  grid-area: jobbody;
+  padding: 1rem;
+  height: 90vh;
+  overflow: scroll;
 }
 
-.bookmark_remove_button{
-    font-size: 2em;
-    text-decoration: none;
-    
+/* page nav */
+#page-bar ul {
+  display: flex;
+  list-style: none;
+  padding: 1rem;
+  justify-content: center;
 }
 
-
-.sidenav .closebtn {
-    position: absolute;
-    top: 0;
-    right: 25px;
-    font-size: 36px;
-    margin-left: 50px;
+#page-bar ul li {
+  padding: 1rem 0;
 }
 
-@media screen and (max-height: 450px) {
-    .sidenav {
-        padding-top: 15px;
-    }
+#page-bar ul li a {
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 14px;
+  padding: 0.4rem 0.6rem;
+  margin: 0.6rem 0.4rem;
+}
 
-    .sidenav a {
-        font-size: 18px;
-    }
+#page-bar ul li a:hover {
+  border: 1px black solid;
+}
+
+#page-bar .first:hover,
+#page-bar .end:hover,
+#page-bar .current:hover {
+  border: none;
+}
+
+.current {
+  background: #00609c;
+  color: #ffcd00;
+}
+
+/* right side */
+.right-page-inner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#bottom {
+  padding: 1rem;
+}
+
+.title-and-location {
+  padding: 1rem;
+}
+
+#job-page-title {
+  font-size: 1.6rem;
+  font-weight: 600;
+  text-decoration: none;
+  color: black;
+}
+
+.job-page-title-container {
+  width: 400px;
+}
+
+#job-page-Location {
+  padding: 1rem 0;
+}
+
+#apply_link {
+  margin-right: 0.5rem;
+  padding: 0.8rem;
+  font-size: 1rem;
+  font-weight: 600;
+  background: #00609c;
+  color: #ffcd00;
+  text-decoration: none;
+}
+
+#book_mark {
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 0.8rem;
+  border: 1px solid #00609c;
+  text-decoration: none;
+  color: #00609c;
+}
+
+.apply-book-container {
+  padding: 1rem 1rem 1rem 0;
+}
+
+.context-container {
 }

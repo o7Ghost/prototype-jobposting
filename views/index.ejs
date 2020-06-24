@@ -1,162 +1,297 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <script
+      src="https://kit.fontawesome.com/3998f08c42.js"
+      crossorigin="anonymous"
+    ></script>
+    <link href="/css/index.css" rel="stylesheet" type="text/css" />
+    <title>Just Do It!</title>
+  </head>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <script src="https://kit.fontawesome.com/3998f08c42.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link href="/css/index.css" rel="stylesheet" type="text/css">
-    <title>Document</title>
-</head>
+  <body>
+    <nav id="main-nav">
+      <div class="nav-container">
+        <div class="left-container">
+          <h1 class="logo">JDo It!</h1>
 
-<body>
-    <div id="mySidenav" class="sidenav">
-        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-    </div>
-
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark w-5">
-        <a class="navbar-brand bg-light"> Welcome <%=currUser%> </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-
-                <li class="nav-item">
-                    <a class="nav-link" onclick="openNav()">&#9776; My Job Marks</a>
-
-                </li>
-                <li class="nav-item">
-                    <% if(session.userId){ %>
-                    <a class="nav-link btn-secondary" href="/LogOut">Log Out</a>
-                    <% } else { %>
-                    <a class="nav-link btn-secondary" href="/Login">Log In</a>
-                    <% } %>
-                </li>
-            </ul>
-            <form class="form-inline my-1 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+          <div class="form-container">
+            <form>
+              <input
+                class="search-input"
+                type="text"
+                name="search"
+                id="search"
+              />
+              <button class="search-btn" type="button">
+                <i class="fas fa-search"></i>
+              </button>
             </form>
+          </div>
         </div>
-    </nav>
-    <div id="jobs_body" class=" d-flex">
-        <div id="job_list" class="d-flex flex-column ">
-            <div style="width: 100%; padding-top: 30px" class="d-flex flex-column align-items-center">
-                <% for (var i= start; i < end; i++) { %>
-                <div class="job_post_item d-flex flex-column flex-direction-column "
-                    job-id="<%= all_posts[i].Company_id %>">
-                    <div><i class="fas fa-briefcase"></i><span><%= all_posts[i].Job_Title %></span></div>
-                    <div><i class="fas fa-location-arrow"></i><span><%= all_posts[i].Location %></span></div>
-                </div>
-                <br>
+
+        <div class="right-container">
+          <ul>
+            <li>
+              <i class="fas fa-user-circle fa-2x"></i>
+              <ul>
+                <li class="nav-item">
+                  <% if(session.userId){ %>
+                  <a class="" href="/LogOut">Sign out</a>
+                  <% } else { %>
+                  <a class="" href="/Login">Sign in</a>
+                  <% } %>
+                </li>
+
+                <% if(!session.userId){ %>
+                <li>
+                  <p>
+                    Don't have an account?
+                    <a class="Login" href="/SignUp">Sign Up Now!</a>
+                  </p>
+                </li>
                 <% } %>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <section id="job">
+      <div class="grid-left">
+        <% for (var i= start; i < end; i++) { %>
+        <div class="job_post_item" job-id="<%= all_posts[i].Company_id %>">
+          <div class="job-inner">
+            <i class="far fa-building fa-2x"></i>
+            <div class="job-header">
+              <a class="job-title" href="#"><%= all_posts[i].Job_Title %></a>
+              <div><%= all_posts[i].Location %></div>
             </div>
-            <nav aria-label="Page navigation example">
-                <ul class="pagination d-flex justify-content-center">
-                    <li class="page-item"><a class="page-link" href="/">First</a></li>
-                    <% for (var i= pagin_start ; i < pagin_end; i++) { %>
-                    <% if (i == currPage) { %>
-                    <li class="page-item active"><a class="page-link" href="/jobpost/<%= i %>"><%= i %></a></li>
-                    <% } else { %>
-                    <li class="page-item"><a class="page-link" href="/jobpost/<%= i %>"><%= i %></a></li>
-                    <% } %>
-                    <% } %>
-                    <li class="page-item"><a class="page-link" href="/jobpost/<%= last_page %>">End</a></li>
-                </ul>
-            </nav>
+          </div>
         </div>
-        <div id="job_details">
-            <p id="job_detail_paragraph">
-                <%= all_posts[start].Context %>
-            </p>
-            <a id="apply_link" class="btn btn-primary" href="<%= all_posts[start].Job_Link %>" target="_blank">Apply</a>
-            <a id="book_mark" class="btn btn-primary" href="/bookmark/<%= all_posts[start].Company_id%>">Book Mark</a>
+        <% } %>
 
+        <div id="page-bar">
+          <ul class="pagination">
+            <li class="page-item">
+              <a class="page-link first" href="/">First</a>
+            </li>
+            <% for (var i= pagin_start ; i < pagin_end; i++) { %> <% if (i ==
+            currPage) { %>
+            <li class="page-item">
+              <a class="page-link current" href="/jobpost/<%= i %>"><%= i %></a>
+            </li>
+            <% } else { %>
+            <li class="page-item">
+              <a class="page-link" href="/jobpost/<%= i %>"><%= i %></a>
+            </li>
+            <% } %> <% } %>
+            <li class="page-item">
+              <a class="page-link end" href="/jobpost/<%= last_page %>">End</a>
+            </li>
+          </ul>
         </div>
-    </div>
+      </div>
 
+      <div class="grid-right">
+        <div class="job-rightgrid-container">
+          <div class="right-page-inner">
+            <i id="bottom" class="far fa-building fa-7x"></i>
 
-    <script src="https://code.jquery.com/jquery-3.4.1.js"
-        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
-    </script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
-    </script>
+            <div class="title-and-location">
+              <div class="job-page-title-container">
+                <a id="job-page-title" href="#"
+                  ><%= all_posts[start].Job_Title %></a
+                >
+              </div>
+              <div id="job-page-Location"><%= all_posts[start].Location %></div>
+
+              <div class="apply-book-container">
+                <a
+                  id="apply_link"
+                  class="btn btn-primary"
+                  href="<%= all_posts[start].Job_Link %>"
+                  target="_blank"
+                  >Apply</a
+                >
+                <a
+                  id="book_mark"
+                  class="btn btn-primary"
+                  href="/bookmark/<%= all_posts[start].Company_id%>"
+                  >Save</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="context-container">
+          <p id="job_detail_paragraph">
+            <%= all_posts[start].Context %>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!--
+      <section id="jobs_body" class="d-flex">
+
+        <div class="d-flex-left">
+        <div id="job_list" class="d-flex flex-column">
+          <div
+            style="width: 100%; padding-top: 30px;"
+            class="d-flex flex-column align-items-center"
+          >
+            <% for (var i= start; i < end; i++) { %>
+            <div
+              class="job_post_item d-flex flex-column flex-direction-column"
+              job-id="<%= all_posts[i].Company_id %>"
+            >
+              <div>
+                <i class="fas fa-briefcase"></i
+                ><span><%= all_posts[i].Job_Title %></span>
+              </div>
+              <div>
+                <i class="fas fa-location-arrow"></i
+                ><span><%= all_posts[i].Location %></span>
+              </div>
+            </div>
+            <br />
+            <% } %>
+          </div>
+
+          <div aria-label="Page navigation example">
+            <ul class="pagination d-flex justify-content-center">
+              <li class="page-item"><a class="page-link" href="/">First</a></li>
+              <% for (var i= pagin_start ; i < pagin_end; i++) { %> <% if (i ==
+              currPage) { %>
+              <li class="page-item active">
+                <a class="page-link" href="/jobpost/<%= i %>"><%= i %></a>
+              </li>
+              <% } else { %>
+              <li class="page-item">
+                <a class="page-link" href="/jobpost/<%= i %>"><%= i %></a>
+              </li>
+              <% } %> <% } %>
+              <li class="page-item">
+                <a class="page-link" href="/jobpost/<%= last_page %>">End</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      
+
+      
+        <div id="job_details" class="d-flex d-flex-right">
+          <p id="job_detail_paragraph">
+            <%= all_posts[start].Context %>
+          </p>
+          <a
+            id="apply_link"
+            class="btn btn-primary"
+            href="<%= all_posts[start].Job_Link %>"
+            target="_blank"
+            >Apply</a
+          >
+          <a
+            id="book_mark"
+            class="btn btn-primary"
+            href="/bookmark/<%= all_posts[start].Company_id%>"
+            >Book Mark</a
+          >
+        </div>
+    </section>
+    -->
+
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.js"
+      integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
 
     <script>
-        //changing style of clicked job_post_item
-        $('.job_post_item').click(function () {
-            var selected_item_ref = $(this)
-            $(this).css('background', '#3b4a6e');
-            $(this).css('color', 'white');
-            $('.job_post_item').each(function (i, obj) {
-                if (!$(obj).is(selected_item_ref)) {
-                    $(obj).css('background', '#AECCE7');
-                    $(obj).css('color', 'black');
-                }
-            });
-            $.ajax({
-                type: "GET",
-                url: '/job/' + $(this).attr('job-id'),
-                dataType: 'json',
-                success: (data) => {
-                    $("#job_detail_paragraph").text(data.Context);
+      //changing style of clicked job_post_item
+      $(".job_post_item").click(function () {
+        var selected_item_ref = $(this);
+        //$(this).css("background", "#e6ffff");
+        //$(this).css("color", "white");
 
-                    $("#apply_link").attr("href", data.Job_Link);
-                    $("#book_mark").attr("href", "/bookmark/" + $(this).attr('job-id'));
-                    console.log("success");
-                }
-            })
+        $(".job_post_item").each(function (i, obj) {
+          if (!$(obj).is(selected_item_ref)) {
+            //$(obj).css("background", "white");
+            //$(obj).css("color", "black");
+          }
         });
+
+        $.ajax({
+          type: "GET",
+          url: "/job/" + $(this).attr("job-id"),
+          dataType: "json",
+          success: (data) => {
+            $("#job_detail_paragraph").text(data.Context);
+            $("#job-page-title").text(data.Job_Title);
+            $("#job-page-Location").text(data.Location);
+            $("#apply_link").attr("href", data.Job_Link);
+            $("#book_mark").attr("href", "/bookmark/" + $(this).attr("job-id"));
+            console.log("success");
+          },
+        });
+      });
     </script>
 
     <script>
-        function openNav() {
-            document.getElementById("mySidenav").style.width = "500px";
-            if($("#mySidenav").children().length == 1){
-                $.ajax({
-                    type: "GET",
-                    url: '/showbookmark',
-                    dataType: 'json',
-                    success: (data) => {
-                        console.log(data);
-                        for (var i = 0; i < data.length; i++) {
-                            let container_box = document.createElement("div");
-                            container_box.setAttribute("class", "bookmark_container");
-                            let bookMark_job = document.createElement("a");
-                            bookMark_job.setAttribute("href", data[i].Job_link);
-                            bookMark_job.setAttribute("class", "bookmark_item");
-            
-                            let bookMark_remove = document.createElement("a");
-                            bookMark_remove.setAttribute("href", "/remove/" + data[i].Company_id);
-                            bookMark_remove.setAttribute("class", "bookmark_remove_button");
-                            bookMark_job.innerHTML = data[i].Job_Title;
-                            bookMark_remove.innerHTML = "⌫";
-                            container_box.appendChild(bookMark_job);
-                            container_box.appendChild(bookMark_remove);
-                            // $("#mySidenav").append('<a href ="' + data[i].Job_link + '" target="_blank">' + data[i].Job_Title +
-                            //     '</a>' + '<a href ="/remove/' +  data[i].Company_id + '">' + 'remove </a>');
-                            $("#mySidenav").append(container_box);
-                        }
+      function openNav() {
+        document.getElementById("mySidenav").style.width = "500px";
+        if ($("#mySidenav").children().length == 1) {
+          $.ajax({
+            type: "GET",
+            url: "/showbookmark",
+            dataType: "json",
+            success: (data) => {
+              console.log(data);
+              for (var i = 0; i < data.length; i++) {
+                let container_box = document.createElement("div");
+                container_box.setAttribute("class", "bookmark_container");
+                let bookMark_job = document.createElement("a");
+                bookMark_job.setAttribute("href", data[i].Job_link);
+                bookMark_job.setAttribute("class", "bookmark_item");
 
-                    }
-                })
-            }
+                let bookMark_remove = document.createElement("a");
+                bookMark_remove.setAttribute(
+                  "href",
+                  "/remove/" + data[i].Company_id
+                );
+                bookMark_remove.setAttribute("class", "bookmark_remove_button");
+                bookMark_job.innerHTML = data[i].Job_Title;
+                bookMark_remove.innerHTML = "⌫";
+                container_box.appendChild(bookMark_job);
+                container_box.appendChild(bookMark_remove);
+                // $("#mySidenav").append('<a href ="' + data[i].Job_link + '" target="_blank">' + data[i].Job_Title +
+                //     '</a>' + '<a href ="/remove/' +  data[i].Company_id + '">' + 'remove </a>');
+                $("#mySidenav").append(container_box);
+              }
+            },
+          });
         }
+      }
 
-        function closeNav() {
-            document.getElementById("mySidenav").style.width = "0";
-        }
+      function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+      }
     </script>
-
-</body>
-
+  </body>
 </html>

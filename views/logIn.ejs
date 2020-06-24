@@ -1,4 +1,54 @@
-<html>
+<DOCTYPE html>
+  <html lang="en">
+    <head>
+    <title> Sign Up | Just Do It! </title>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta http-equiv="X-UA-Compatible" content="ie=edge">
+      <meta name="description" content="Welcome Back! Sign in and kick start your career!">
+      <meta name="keywords" content="career, new graduates, entry level, internship">
+      <link rel="stylesheet" href="/css/logIn.css">
+    </head>
+
+    <body>
+      <% if (error.length > 0) { %>
+        <div class="isa_error">
+          <i> <%= error %></i>
+        </div>
+        <%} %>
+        <section>
+          <header>
+            <h1 class="main-header"> <span class="Just">Welcome</span> Back</h1>
+            <h1 class="main-subtitle">Sign in and kick start<span class="Just"> your career journey!</span></h1>
+          </header>
+          
+          <div class="join-formbody">
+            <form action="/login" method="Post">
+              <div class="form-group">
+                
+                <input class="email" type="text" name="Username" placeholder="Username" required="">
+    
+                <input class="password" type="password" name="Password" placeholder="Password" required="">
+    
+                <div class="Company-signup-box">
+                  <input type="checkbox" name="company" value="true">
+                  <span class="Company-signup"> Logging in for your company? </span>
+                </div>
+    
+                <input class="btn" type="submit" value="Link Start!">
+    
+              </div>
+            </form>
+          </div>
+    
+          <footer>
+            <p>Don't have an account? <a class="Login" href="SignUp/">Sign Up Now!</a></p>
+       </footer>
+      </section>
+    </body>
+  </html>
+
+<!-- <html>
 <head>
   <title> Sign Up </title>
   <link rel="stylesheet" href="/css/logIn.css">
@@ -24,4 +74,4 @@
     </div>
   </div>
 </body>
-</html>
+</html> -->
