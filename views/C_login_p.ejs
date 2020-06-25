@@ -1,39 +1,156 @@
-<head>
-	<title><%=result[0].Company_Name%></title>
-	<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-	<link href="/css/acc_page.css" rel="stylesheet" type="text/css">
-</head>
-<body>
-	<div class = "nav">
-		<a href="/LogOut">Log Out</a>
-	</div>
-	<div class = "row">
-		<% for (var i = 0; i < result.length; i++) { %>
-		<div class = "display_details"job_id ="<%=result[i].Company_id%>">
-			<div class = items>
-				<div><span><%=result[i].Job_Title%></span></div>
-				<div><span><%=result[i].Location %></span></div>
-			</div>
-		</div>
-		<br>
-		<%}%>
-	</div>
-	<div class = "Content" id = "right">
-		<%=result[0].Context%>	
-	</div>
-	<script>
-		$(".display_details").click(function() {
-			console.log("entered script")
-			$.ajax({
-				type:"GET",
-                dataType:"json",
-                url: '/Login/acc_page/data/' + $(this).attr('job_id'),
-                success:(data) => {
-                	console.log(data.Context);
-                	$(".Content").text(data.Context);
-                }
-            })
-		});
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      src="https://kit.fontawesome.com/3998f08c42.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <link rel="stylesheet" href="/css/acc_page.css" />
+    <title>Welcome! <%=result[0].Company_Name%></title>
+  </head>
+
+  <body>
+    <nav id="main-nav">
+      <div class="nav-container">
+        <div class="left-container">
+          <h1 class="logo">JDo It!</h1>
+
+          <div class="form-container">
+            <form>
+              <input
+                class="search-input"
+                type="text"
+                name="search"
+                id="search"
+              />
+              <button class="search-btn" type="button">
+                <i class="fas fa-search"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <div class="right-container">
+          <ul>
+            <li>
+              <i class="fas fa-user-circle fa-2x"></i>
+              <ul>
+                <li class="nav-item">
+                  <a href="/LogOut">Log Out</a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <section id="job">
+      <div class="grid-left">
+        <% for (var i= 0; i < result.length; i++) { %>
+        <div class="job_post_item" job-id="<%= result[i].Company_id %>">
+          <div class="job-inner">
+            <i class="far fa-building fa-2x"></i>
+            <div class="job-header">
+              <a class="job-title" href="#"><%= result[i].Job_Title %></a>
+              <div><%= result[0].Company_Name %></div>
+              <div><%= result[i].Location %></div>
+            </div>
+          </div>
+        </div>
+        <% } %>
+      </div>
+
+      <div class="grid-right">
+        <div class="job-rightgrid-container">
+          <div class="right-page-inner">
+            <i id="bottom" class="far fa-building fa-7x"></i>
+
+            <div class="title-and-location">
+              <div class="job-page-title-container">
+                <a id="job-page-title" href="#"><%= result[0].Job_Title %></a>
+              </div>
+              <div id="job-page-Company">
+                <%= result[0].Company_Name %>
+              </div>
+              <div id="job-page-Location"><%= result[0].Location %></div>
+
+              <div class="apply-book-container">
+                <a
+                  id="apply_link"
+                  class="btn btn-primary"
+                  href="<%= result[0].Job_Link %>"
+                  target="_blank"
+                  >Apply</a
+                >
+                <a
+                  id="book_mark"
+                  class="btn btn-primary"
+                  href="/bookmark/<%= result[0].Company_id%>"
+                  >Save</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="context-container">
+          <p id="job_detail_paragraph">
+            <%= result[0].Context %>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      //changing style of clicked job_post_item
+      $(".job_post_item").click(function () {
+        var selected_item_ref = $(this);
+        //$(this).css("background", "#e6ffff");
+        //$(this).css("color", "white");
+
+        $(".job_post_item").each(function (i, obj) {
+          if (!$(obj).is(selected_item_ref)) {
+            //$(obj).css("background", "white");
+            //$(obj).css("color", "black");
+          }
+        });
+
+        $.ajax({
+          type: "GET",
+          url: "/job/" + $(this).attr("job-id"),
+          dataType: "json",
+          success: (data) => {
+            $("#job_detail_paragraph").text(data.Context);
+            $("#job-page-title").text(data.Job_Title);
+            $("#job-page-Location").text(data.Location);
+            $("#job-page-Company").text(data.Company_Name);
+            $("#apply_link").attr("href", data.Job_Link);
+            $("#book_mark").attr("href", "/bookmark/" + $(this).attr("job-id"));
+            console.log("success");
+          },
+        });
+      });
+    </script>
+    <!--
+    <script>
+      $(".job_post_item").click(function () {
+        console.log("entered script");
+        $.ajax({
+          type: "GET",
+          dataType: "json",
+          url: "/Login/acc_page/data/" + $(this).attr("job-id"),
+          success: (data) => {
+            console.log(data.Context);
+            $(".Content").text(data.Context);
+          },
+        });
+      });
 	</script>
-</body>
+	-->
+  </body>
+</html>
