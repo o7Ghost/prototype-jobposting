@@ -69,6 +69,7 @@
             <i class="far fa-building fa-2x"></i>
             <div class="job-header">
               <a class="job-title" href="#"><%= all_posts[i].Job_Title %></a>
+              <div><%= all_posts[i].Company_Name %></div>
               <div><%= all_posts[i].Location %></div>
             </div>
           </div>
@@ -107,6 +108,9 @@
                 <a id="job-page-title" href="#"
                   ><%= all_posts[start].Job_Title %></a
                 >
+              </div>
+              <div id="job-page-Company">
+                <%= all_posts[start].Company_Name %>
               </div>
               <div id="job-page-Location"><%= all_posts[start].Location %></div>
 
@@ -245,6 +249,7 @@
             $("#job_detail_paragraph").text(data.Context);
             $("#job-page-title").text(data.Job_Title);
             $("#job-page-Location").text(data.Location);
+            $("#job-page-Company").text(data.Company_Name);
             $("#apply_link").attr("href", data.Job_Link);
             $("#book_mark").attr("href", "/bookmark/" + $(this).attr("job-id"));
             console.log("success");
