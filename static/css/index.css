@@ -213,8 +213,12 @@ section {
   width: 400px;
 }
 
+#job-page-Company {
+  padding: 0.5rem 0;
+}
+
 #job-page-Location {
-  padding: 1rem 0;
+  padding-bottom: 0.5rem;
 }
 
 #apply_link {
@@ -230,7 +234,7 @@ section {
 #book_mark {
   font-size: 1rem;
   font-weight: 600;
-  padding: 0.8rem;
+  padding: 0.8rem 1rem;
   border: 1px solid #00609c;
   text-decoration: none;
   color: #00609c;
